@@ -1,0 +1,72 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+android {
+    namespace = "com.example.flutter_player"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        // Application ID
+        applicationId = "com.example.flutter_player"
+
+        // Minimum and Target SDK versions from Flutter configuration
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+
+        // Versioning
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    packagingOptions {
+        // Fixes duplicate libraries build issue
+        pickFirst 'lib/**/libc++_shared.so'
+    }
+
+    signingConfigs {
+        debug {
+            // Debug signing (default)
+        }
+        release {
+            // Configure this for production signing
+            storeFile file("D:/mp3 cutter/video_player/flutter_player/android/app/your-keystore-file.jks") // Path to your keystore
+            storePassword "busonbuson"                         // Keystore password
+            keyAlias "your-key-alias"                          // Correct key alias (from the keytool command)
+            keyPassword "busonbuson"                            // Key alias password
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            // Enables code shrinking and obfuscation for release builds
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile(
+                'proguard-android-optimize.txt'),
+                'proguard-rules.pro'
+
+            // Use the release signing config
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+flutter {
+    source = "../.."
+}
